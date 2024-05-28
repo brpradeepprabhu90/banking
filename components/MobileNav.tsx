@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Footer from "./Footer";
 function MobileNav({ user }: MobileNavProps) {
   let pathname = usePathname();
   return (
@@ -78,7 +79,7 @@ function MobileNav({ user }: MobileNavProps) {
               </nav>
               
             </SheetClose>
-            footer
+            <Footer user={user} type="mobile"></Footer>
           </div>
         </SheetContent>
       </Sheet>
