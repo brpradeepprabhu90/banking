@@ -21,7 +21,6 @@ const {
 } = process.env;
 export const getUserInfo = async ({ userId }: getUserInfoProps) => {
   try {
-    console.log("userId",userId)
     const { database } = await createAdminClient();
     const user = await database.listDocuments(
       DATABASE_ID!,
@@ -103,7 +102,7 @@ export async function getLoggedInUser() {
   try {
     const { account } = await createSessionClient();
     const result = await account.get();
-    const user = await getUserInfo({userId:result.$id});
+    const user = await getUserInfo({ userId: result.$id });
     return parseStringify(user);
   } catch (error) {
     return null;
@@ -237,6 +236,23 @@ export const getBank = async ({ documentId }: getBankProps) => {
       [Query.equal("$id", [documentId])]
     );
     return parseStringify(banks.documents[0]);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getBankByAccountId = async ({
+  accountId,
+}: getBankByAccountIdProps) => {
+  try {
+    const { database } = await createAdminClient();
+    const bank = await database.listDocuments(
+      DATABASE_ID!,
+      BANK_COLLECTION_ID!,
+      [Query.equal("accountId", [accountId])]
+    );
+    if (bank.total != 1) return null;
+    return parseStringify(bank.documents[0]);
   } catch (error) {
     console.error(error);
   }

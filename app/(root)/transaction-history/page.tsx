@@ -1,4 +1,5 @@
 import HeaderBox from '@/components/HeaderBox'
+import { Pagination } from '@/components/Pagination';
 import TransactionTable from '@/components/TransactionTable';
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
@@ -62,7 +63,7 @@ const currentTransactions = account?.transactions.slice(
           />
             {totalPages > 1 && (
               <div className="my-4 w-full">
-               
+                 <Pagination totalPages={totalPages} page={currentPage}></Pagination>
               </div>
             )}
         </section>
