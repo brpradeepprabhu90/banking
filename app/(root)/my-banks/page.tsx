@@ -1,8 +1,9 @@
 import BankCard from '@/components/BankCard';
 import HeaderBox from '@/components/HeaderBox'
+import Loading from '@/components/Loading';
 import { getAccounts } from '@/lib/actions/bank.actions';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
-import React from 'react'
+import React, { Suspense } from 'react'
 
 const MyBanks = async () => {
   const loggedIn = await getLoggedInUser();
@@ -11,6 +12,7 @@ const MyBanks = async () => {
   })
 
   return (
+    <Suspense fallback={<Loading/>}>
     <section className='flex'>
       <div className="my-banks">
         <HeaderBox 
@@ -34,6 +36,7 @@ const MyBanks = async () => {
         </div>
       </div>
     </section>
+    </Suspense>
   )
 }
 

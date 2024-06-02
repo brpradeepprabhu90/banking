@@ -1,8 +1,9 @@
 import HeaderBox from "@/components/HeaderBox";
+import Loading from "@/components/Loading";
 import PaymentTransferForm from "@/components/PaymentTransferForm";
 import { getAccounts } from "@/lib/actions/bank.actions";
 import { getLoggedInUser } from "@/lib/actions/user.actions";
-import React from "react";
+import React, { Suspense } from "react";
 
 const Transfer = async() => {
   const loggedIn = await getLoggedInUser();
@@ -12,6 +13,7 @@ const Transfer = async() => {
   if (!accounts) return;
   const accountsData = accounts?.data;
   return (
+    <Suspense fallback={<Loading/>}>
     <section className="payment-transfer">
       <HeaderBox
         title="Payment Transfer"
@@ -21,6 +23,7 @@ const Transfer = async() => {
     <PaymentTransferForm accounts={accountsData} ></PaymentTransferForm>
       </section>
     </section>
+    </Suspense>
   );
 };
 

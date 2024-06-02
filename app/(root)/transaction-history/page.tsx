@@ -1,10 +1,11 @@
 import HeaderBox from '@/components/HeaderBox'
+import Loading from '@/components/Loading';
 import { Pagination } from '@/components/Pagination';
 import TransactionTable from '@/components/TransactionTable';
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 import { formatAmount } from '@/lib/utils';
-import React from 'react'
+import React, { Suspense } from 'react'
 
 const TransactionHistory = async ({ searchParams: { id, page }}:SearchParamProps) => {
   const currentPage = Number(page as string) || 1;
@@ -31,6 +32,7 @@ const currentTransactions = account?.transactions.slice(
   indexOfFirstTransaction, indexOfLastTransaction
 )
   return (
+    <Suspense fallback={<Loading/>}>
     <div className="transactions">
       <div className="transactions-header">
         <HeaderBox 
@@ -69,6 +71,7 @@ const currentTransactions = account?.transactions.slice(
         </section>
       </div>
     </div>
+    </Suspense>
   )
 }
 

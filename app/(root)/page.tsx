@@ -1,10 +1,11 @@
 import HeaderBox from "@/components/HeaderBox";
+import Loading from "@/components/Loading";
 import RecentTransactions from "@/components/RecentTransactions";
 import RightSideBar from "@/components/RightSideBar";
 import TotalBalanceBox from "@/components/TotalBalanceBox";
 import { getAccount, getAccounts } from "@/lib/actions/bank.actions";
 import { getLoggedInUser } from "@/lib/actions/user.actions";
-import React from "react";
+import React, { Suspense } from "react";
 
 const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
   const loggedIn = await getLoggedInUser();
@@ -17,6 +18,7 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
   const account = await getAccount({ appwriteItemId });
   const currentPage = Number(page as string) || 1;
   return (
+    <Suspense fallback={<Loading />}>
     <section className="home">
       <div className="home-content">
         <header className="home-header">
@@ -45,6 +47,7 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
         banks={accountsData?.slice(0, 2)}
       ></RightSideBar>
     </section>
+    </Suspense>
   );
 };
 
