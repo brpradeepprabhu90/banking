@@ -152,6 +152,7 @@ export const getTransactions = async ({
   accessToken,
 }: getTransactionsProps) => {
   let hasMore = true;
+  let cursor = undefined;
   let transactions: any = [];
 
   try {
@@ -159,6 +160,7 @@ export const getTransactions = async ({
     while (hasMore) {
       const response = await plaidClient.transactionsSync({
         access_token: accessToken,
+        cursor
       });
 
       const data = response.data;
@@ -177,10 +179,11 @@ export const getTransactions = async ({
       }));
 
       hasMore = data.has_more;
+      cursor = data.next_cursor;
     }
 
     return parseStringify(transactions);
   } catch (error) {
-    console.error("An error occurred while getting the accounts:", error);
+    console.error("An error occurred while getting the transactions:", error);
   }
 };
